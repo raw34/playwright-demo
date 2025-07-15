@@ -1,0 +1,42 @@
+{
+  "name": "playwright-demo",
+  "version": "1.0.0",
+  "description": "Playwright E2E Testing Demo with TypeScript",
+  "main": "index.js",
+  "scripts": {
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:debug": "playwright test --debug",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report",
+    "test:codegen": "playwright codegen",
+    "lint": "eslint src/ --ext .ts",
+    "lint:fix": "eslint src/ --ext .ts --fix",
+    "format": "prettier --write src/",
+    "format:check": "prettier --check src/",
+    "typecheck": "tsc --noEmit",
+    "install:browsers": "playwright install"
+  },
+  "keywords": [
+    "playwright",
+    "typescript",
+    "e2e",
+    "testing",
+    "automation"
+  ],
+  "author": "Randy",
+  "license": "MIT",
+  "devDependencies": {
+    "@playwright/test": "^1.44.0",
+    "@typescript-eslint/eslint-plugin": "^7.0.0",
+    "@typescript-eslint/parser": "^7.0.0",
+    "eslint": "^8.57.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-playwright": "^1.6.0",
+    "prettier": "^3.2.5",
+    "typescript": "^5.4.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
