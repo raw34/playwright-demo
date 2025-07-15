@@ -25,7 +25,7 @@ export class GitHubPage extends BasePage {
       '[aria-label*="GitHub"]',
       '.octicon-mark-github',
       '.Header-link--homepage',
-      'a[href="/"]'
+      'a[href="/"]',
     ];
 
     for (const selector of logoSelectors) {
@@ -43,8 +43,8 @@ export class GitHubPage extends BasePage {
   }
 
   async waitForHomePageLoad() {
-    await this.page.waitForLoadState('networkidle');
+    await this.page.waitForLoadState('domcontentloaded');
     // 等待页面主要内容加载
-    await this.page.waitForSelector('body', { timeout: 10000 });
+    await this.page.locator('body').waitFor({ timeout: 10000 });
   }
 }

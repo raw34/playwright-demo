@@ -38,11 +38,11 @@ export class DemoSitesPage extends BasePage {
     try {
       const preElement = this.getLocator('pre');
       const slideshowText = this.getLocator('text="slideshow"');
-      
+
       await preElement.waitFor({ timeout: 5000 });
       const preVisible = await preElement.isVisible();
       const slideshowVisible = await slideshowText.isVisible();
-      
+
       return preVisible && slideshowVisible;
     } catch {
       return false;

@@ -5,7 +5,12 @@
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(yarn test:*)",
-      "Bash(rm:*)"
+      "Bash(rm:*)",
+      "Bash(yarn format:check)",
+      "Bash(yarn install)",
+      "Bash(yarn format:*)",
+      "Bash(yarn typecheck)",
+      "Bash(yarn lint)"
     ],
     "deny": []
   }

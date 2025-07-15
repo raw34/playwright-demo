@@ -38,6 +38,6 @@ export abstract class BasePage {
   }
 
   protected async getText(selector: string): Promise<string> {
-    return await this.getLocator(selector).textContent() || '';
+    return (await this.getLocator(selector).textContent()) || '';
   }
 }

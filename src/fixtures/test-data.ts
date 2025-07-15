@@ -4,7 +4,7 @@ export const gitHubTestData = {
     popular: 'playwright',
     language: 'typescript',
   },
-  
+
   repositories: {
     playwright: {
       owner: 'microsoft',
@@ -13,7 +13,7 @@ export const gitHubTestData = {
       expectedLanguages: ['TypeScript', 'JavaScript'],
       hasReadme: true,
     },
-    
+
     react: {
       owner: 'facebook',
       name: 'react',
@@ -22,7 +22,7 @@ export const gitHubTestData = {
       hasReadme: true,
     },
   },
-  
+
   expectedResults: {
     minStars: 500,
     minForks: 50,
@@ -42,7 +42,7 @@ export const demoTestData = {
       password: 'wrongpassword',
     },
   },
-  
+
   testUrls: {
     example: 'https://example.com',
     loginDemo: 'https://the-internet.herokuapp.com/login',
