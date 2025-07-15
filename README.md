@@ -1,95 +1,95 @@
-# Playwright Demo
+# Playwright 演示项目
 
-A comprehensive Playwright E2E testing framework built with TypeScript, featuring best practices for test automation.
+基于 TypeScript 构建的全面 Playwright E2E 测试框架，采用测试自动化最佳实践。
 
-## Features
+## 功能特性
 
-- 🎭 **Playwright** - Modern browser automation
-- 🔷 **TypeScript** - Type-safe test development  
-- 📁 **Page Object Model** - Maintainable test architecture
-- 🧪 **Multiple Test Types** - E2E, API, and component tests
-- 🔧 **Code Quality** - ESLint + Prettier configuration
-- 🚀 **CI/CD Ready** - GitHub Actions workflow
-- 📊 **Rich Reporting** - HTML reports with screenshots/videos
+- 🎭 **Playwright** - 现代浏览器自动化工具
+- 🔷 **TypeScript** - 类型安全的测试开发  
+- 📁 **页面对象模式** - 可维护的测试架构
+- 🧪 **多种测试类型** - E2E、API 和组件测试
+- 🔧 **代码质量** - ESLint + Prettier 配置
+- 🚀 **CI/CD 就绪** - GitHub Actions 工作流
+- 📊 **丰富报告** - 包含截图和视频的 HTML 报告
 
-## Project Structure
+## 项目结构
 
 ```
 playwright-demo/
 ├── src/
-│   ├── pages/              # Page Object Model classes
-│   │   ├── base.page.ts    # Base page with common methods
-│   │   ├── login.page.ts   # Login page object
-│   │   └── home.page.ts    # Home page object
-│   ├── tests/              # Test files
-│   │   ├── e2e/           # End-to-end tests
-│   │   └── api/           # API tests
-│   ├── fixtures/          # Test data and fixtures
-│   ├── utils/             # Helper utilities
-│   └── config/            # Setup and teardown
-├── .github/workflows/     # CI/CD configuration
-├── playwright.config.ts   # Playwright configuration
-├── tsconfig.json         # TypeScript configuration
-└── package.json          # Dependencies and scripts
+│   ├── pages/              # 页面对象模式类
+│   │   ├── base.page.ts    # 包含通用方法的基础页面
+│   │   ├── login.page.ts   # 登录页面对象
+│   │   └── home.page.ts    # 首页页面对象
+│   ├── tests/              # 测试文件
+│   │   ├── e2e/           # 端到端测试
+│   │   └── api/           # API 测试
+│   ├── fixtures/          # 测试数据和夹具
+│   ├── utils/             # 工具函数
+│   └── config/            # 设置和清理配置
+├── .github/workflows/     # CI/CD 配置
+├── playwright.config.ts   # Playwright 配置文件
+├── tsconfig.json         # TypeScript 配置
+└── package.json          # 依赖和脚本
 ```
 
-## Quick Start
+## 快速开始
 
-1. **Install dependencies**:
+1. **安装依赖**:
    ```bash
    yarn install
    ```
 
-2. **Install browsers**:
+2. **安装浏览器**:
    ```bash
    yarn install:browsers
    ```
 
-3. **Run tests**:
+3. **运行测试**:
    ```bash
    yarn test
    ```
 
-## Available Scripts
+## 可用脚本
 
-- `yarn test` - Run all tests
-- `yarn test:headed` - Run tests in headed mode
-- `yarn test:debug` - Run tests in debug mode
-- `yarn test:ui` - Run tests with Playwright UI
-- `yarn test:report` - Show test report
-- `yarn test:codegen` - Generate tests with codegen
-- `yarn lint` - Check code quality
-- `yarn lint:fix` - Fix linting issues
-- `yarn format` - Format code with Prettier
-- `yarn typecheck` - Check TypeScript types
+- `yarn test` - 运行所有测试
+- `yarn test:headed` - 以有头模式运行测试
+- `yarn test:debug` - 以调试模式运行测试
+- `yarn test:ui` - 使用 Playwright UI 运行测试
+- `yarn test:report` - 显示测试报告
+- `yarn test:codegen` - 使用代码生成器生成测试
+- `yarn lint` - 检查代码质量
+- `yarn lint:fix` - 修复代码规范问题
+- `yarn format` - 使用 Prettier 格式化代码
+- `yarn typecheck` - 检查 TypeScript 类型
 
-## Configuration
+## 配置
 
-### Environment Variables
+### 环境变量
 
-- `BASE_URL` - Base URL for tests (default: http://localhost:3000)
-- `API_BASE_URL` - API base URL for API tests
+- `BASE_URL` - 测试基础 URL（默认：http://localhost:3000）
+- `API_BASE_URL` - API 测试基础 URL
 
-### Test Data
+### 测试数据
 
-Test data is managed in `src/fixtures/test-data.ts` with predefined users and URLs.
+测试数据在 `src/fixtures/test-data.ts` 中管理，包含预定义的用户和 URL。
 
-## Best Practices
+## 最佳实践
 
-- Use Page Object Model for maintainable tests
-- Leverage TypeScript for type safety
-- Include both positive and negative test cases
-- Use meaningful test descriptions
-- Add proper error handling and assertions
-- Follow the established code style guidelines
+- 使用页面对象模式编写可维护的测试
+- 利用 TypeScript 实现类型安全
+- 包含正面和负面测试用例
+- 使用有意义的测试描述
+- 添加适当的错误处理和断言
+- 遵循既定的代码风格指南
 
-## Contributing
+## 贡献指南
 
-1. Follow the existing code style
-2. Add tests for new features
-3. Run linting and type checking before committing
-4. Use conventional commit messages
+1. 遵循现有的代码风格
+2. 为新功能添加测试
+3. 提交前运行代码检查和类型检查
+4. 使用约定式提交消息
 
-## License
+## 许可证
 
 MIT
