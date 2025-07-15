@@ -41,3 +41,45 @@ export const testUrls = {
   profile: '/profile',
   settings: '/settings',
 };
+
+// GitHub 测试数据
+export const gitHubTestData = {
+  searchQueries: {
+    popular: 'playwright',
+    specific: 'microsoft/playwright',
+    language: 'typescript',
+    trending: 'react',
+  },
+  
+  repositories: {
+    playwright: {
+      owner: 'microsoft',
+      name: 'playwright',
+      fullName: 'microsoft/playwright',
+      expectedLanguages: ['TypeScript', 'JavaScript'],
+      hasReadme: true,
+    },
+    
+    react: {
+      owner: 'facebook',
+      name: 'react',
+      fullName: 'facebook/react',
+      expectedLanguages: ['JavaScript'],
+      hasReadme: true,
+    },
+    
+    vue: {
+      owner: 'vuejs',
+      name: 'vue',
+      fullName: 'vuejs/vue',
+      expectedLanguages: ['TypeScript', 'JavaScript'],
+      hasReadme: true,
+    },
+  },
+  
+  expectedResults: {
+    minStars: 1000,
+    minForks: 100,
+    maxSearchResults: 10,
+  },
+};
