@@ -15,7 +15,9 @@ test.describe('GitHub API 测试', () => {
   test('应该能够获取仓库信息', async ({ request }) => {
     const testRepo = gitHubTestData.repositories.playwright;
 
-    const response = await request.get(`${baseURL}/repos/${testRepo.fullName}`, { headers: getAuthHeaders() });
+    const response = await request.get(`${baseURL}/repos/${testRepo.fullName}`, {
+      headers: getAuthHeaders(),
+    });
 
     expect(response.status()).toBe(200);
 
@@ -70,7 +72,9 @@ test.describe('GitHub API 测试', () => {
   test('应该能够获取仓库的编程语言分布', async ({ request }) => {
     const testRepo = gitHubTestData.repositories.playwright;
 
-    const response = await request.get(`${baseURL}/repos/${testRepo.fullName}/languages`, { headers: getAuthHeaders() });
+    const response = await request.get(`${baseURL}/repos/${testRepo.fullName}/languages`, {
+      headers: getAuthHeaders(),
+    });
 
     expect(response.status()).toBe(200);
 
@@ -97,7 +101,9 @@ test.describe('GitHub API 测试', () => {
   test('应该能够获取仓库的 README', async ({ request }) => {
     const testRepo = gitHubTestData.repositories.playwright;
 
-    const response = await request.get(`${baseURL}/repos/${testRepo.fullName}/readme`, { headers: getAuthHeaders() });
+    const response = await request.get(`${baseURL}/repos/${testRepo.fullName}/readme`, {
+      headers: getAuthHeaders(),
+    });
 
     expect(response.status()).toBe(200);
 
@@ -168,7 +174,9 @@ test.describe('GitHub API 测试', () => {
   });
 
   test('应该正确处理不存在的仓库', async ({ request }) => {
-    const response = await request.get(`${baseURL}/repos/nonexistent/repository`, { headers: getAuthHeaders() });
+    const response = await request.get(`${baseURL}/repos/nonexistent/repository`, {
+      headers: getAuthHeaders(),
+    });
 
     expect(response.status()).toBe(404);
 
@@ -179,7 +187,9 @@ test.describe('GitHub API 测试', () => {
   test('应该能够获取用户信息', async ({ request }) => {
     const testRepo = gitHubTestData.repositories.playwright;
 
-    const response = await request.get(`${baseURL}/users/${testRepo.owner}`, { headers: getAuthHeaders() });
+    const response = await request.get(`${baseURL}/users/${testRepo.owner}`, {
+      headers: getAuthHeaders(),
+    });
 
     expect(response.status()).toBe(200);
 
