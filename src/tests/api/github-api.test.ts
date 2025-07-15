@@ -4,10 +4,18 @@ import { gitHubTestData } from '@/fixtures/test-data';
 test.describe('GitHub API 测试', () => {
   const baseURL = 'https://api.github.com';
 
+  const getAuthHeaders = () => {
+    const headers: Record<string, string> = {};
+    if (process.env.GITHUB_TOKEN) {
+      headers['Authorization'] = `Bearer ${process.env.GITHUB_TOKEN}`;
+    }
+    return headers;
+  };
+
   test('应该能够获取仓库信息', async ({ request }) => {
     const testRepo = gitHubTestData.repositories.playwright;
 
-    const response = await request.get(`${baseURL}/repos/${testRepo.fullName}`);
+    const response = await request.get(`${baseURL}/repos/${testRepo.fullName}`, { headers: getAuthHeaders() });
 
     expect(response.status()).toBe(200);
 
@@ -30,6 +38,7 @@ test.describe('GitHub API 测试', () => {
     const query = gitHubTestData.searchQueries.popular;
 
     const response = await request.get(`${baseURL}/search/repositories`, {
+      headers: getAuthHeaders(),
       params: {
         q: query,
         sort: 'stars',
@@ -61,7 +70,7 @@ test.describe('GitHub API 测试', () => {
   test('应该能够获取仓库的编程语言分布', async ({ request }) => {
     const testRepo = gitHubTestData.repositories.playwright;
 
-    const response = await request.get(`${baseURL}/repos/${testRepo.fullName}/languages`);
+    const response = await request.get(`${baseURL}/repos/${testRepo.fullName}/languages`, { headers: getAuthHeaders() });
 
     expect(response.status()).toBe(200);
 
@@ -88,7 +97,7 @@ test.describe('GitHub API 测试', () => {
   test('应该能够获取仓库的 README', async ({ request }) => {
     const testRepo = gitHubTestData.repositories.playwright;
 
-    const response = await request.get(`${baseURL}/repos/${testRepo.fullName}/readme`);
+    const response = await request.get(`${baseURL}/repos/${testRepo.fullName}/readme`, { headers: getAuthHeaders() });
 
     expect(response.status()).toBe(200);
 
@@ -108,6 +117,7 @@ test.describe('GitHub API 测试', () => {
     const testRepo = gitHubTestData.repositories.playwright;
 
     const response = await request.get(`${baseURL}/repos/${testRepo.fullName}/commits`, {
+      headers: getAuthHeaders(),
       params: {
         per_page: 5,
       },
@@ -133,6 +143,7 @@ test.describe('GitHub API 测试', () => {
     const testRepo = gitHubTestData.repositories.playwright;
 
     const response = await request.get(`${baseURL}/repos/${testRepo.fullName}/releases`, {
+      headers: getAuthHeaders(),
       params: {
         per_page: 3,
       },
@@ -157,7 +168,7 @@ test.describe('GitHub API 测试', () => {
   });
 
   test('应该正确处理不存在的仓库', async ({ request }) => {
-    const response = await request.get(`${baseURL}/repos/nonexistent/repository`);
+    const response = await request.get(`${baseURL}/repos/nonexistent/repository`, { headers: getAuthHeaders() });
 
     expect(response.status()).toBe(404);
 
@@ -168,7 +179,7 @@ test.describe('GitHub API 测试', () => {
   test('应该能够获取用户信息', async ({ request }) => {
     const testRepo = gitHubTestData.repositories.playwright;
 
-    const response = await request.get(`${baseURL}/users/${testRepo.owner}`);
+    const response = await request.get(`${baseURL}/users/${testRepo.owner}`, { headers: getAuthHeaders() });
 
     expect(response.status()).toBe(200);
 
