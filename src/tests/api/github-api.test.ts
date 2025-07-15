@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { gitHubTestData } from '@/fixtures/test-data';
+import { gitHubTestData } from '@/fixtures/github.data';
 
 test.describe('GitHub API 测试', () => {
   const baseURL = 'https://api.github.com';
@@ -30,10 +30,10 @@ test.describe('GitHub API 测试', () => {
     expect(data).toHaveProperty('language');
 
     // 验证 Star 数量
-    expect(data.stargazers_count).toBeGreaterThan(gitHubTestData.expectedResults.minStars);
+    expect(data.stargazers_count).toBeGreaterThan(gitHubTestData.expectedResults.search.minStars);
 
     // 验证 Fork 数量
-    expect(data.forks_count).toBeGreaterThan(gitHubTestData.expectedResults.minForks);
+    expect(data.forks_count).toBeGreaterThan(gitHubTestData.expectedResults.search.minForks);
   });
 
   test('应该能够搜索仓库', async ({ request }) => {

@@ -3,6 +3,10 @@ import { Page, Locator } from '@playwright/test';
 export abstract class BasePage {
   protected page: Page;
 
+  get pageInstance(): Page {
+    return this.page;
+  }
+
   constructor(page: Page) {
     this.page = page;
   }
@@ -19,6 +23,10 @@ export abstract class BasePage {
 
   async waitForLoadState(state?: 'load' | 'domcontentloaded' | 'networkidle') {
     await this.page.waitForLoadState(state || 'networkidle');
+  }
+
+  async waitForTimeout(timeout: number) {
+    await this.page.waitForTimeout(timeout);
   }
 
   async screenshot(name: string) {

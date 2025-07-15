@@ -1,5 +1,5 @@
 import { test, expect } from '@playwright/test';
-import { demoTestData } from '@/fixtures/test-data';
+import { demoTestData } from '@/fixtures/demo.data';
 import { DemoSitesPage } from '@/pages/demo-sites.page';
 
 test.describe('演示网站测试', () => {
