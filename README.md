@@ -19,14 +19,21 @@ playwright-demo/
 ├── src/
 │   ├── pages/              # 页面对象模式类
 │   │   ├── base.page.ts    # 包含通用方法的基础页面
-│   │   ├── login.page.ts   # 登录页面对象
-│   │   └── home.page.ts    # 首页页面对象
+│   │   ├── github.page.ts  # GitHub 页面操作
+│   │   └── demo-sites.page.ts # 演示网站页面操作
 │   ├── tests/              # 测试文件
 │   │   ├── e2e/           # 端到端测试
+│   │   │   ├── github.test.ts
+│   │   │   └── demo-sites.test.ts
 │   │   └── api/           # API 测试
+│   │       └── github-api.test.ts
 │   ├── fixtures/          # 测试数据和夹具
+│   │   └── test-data.ts
 │   ├── utils/             # 工具函数
+│   │   └── helpers.ts
 │   └── config/            # 设置和清理配置
+│       ├── global-setup.ts
+│       └── global-teardown.ts
 ├── .github/workflows/     # CI/CD 配置
 ├── playwright.config.ts   # Playwright 配置文件
 ├── tsconfig.json         # TypeScript 配置
@@ -72,13 +79,44 @@ playwright-demo/
 
 ### 测试数据
 
-测试数据在 `src/fixtures/test-data.ts` 中管理，包含预定义的用户和 URL。
+测试数据在 `src/fixtures/test-data.ts` 中管理，包含：
+- GitHub API 测试数据（仓库信息、搜索查询等）
+- 基础演示测试数据（登录凭据、测试 URL 等）
+
+## 测试用例说明
+
+### GitHub E2E 测试 (`github.test.ts`)
+- **GitHub 首页访问验证** - 测试 GitHub 主页加载和标题验证
+- **GitHub Logo 验证** - 验证 GitHub Logo 显示
+- **页面基本结构验证** - 验证页面响应和基本内容
+
+### 演示网站 E2E 测试 (`demo-sites.test.ts`)
+- **Example.com 内容验证** - 验证示例网站的基本功能
+- **HTTP API 响应测试** - 测试 httpbin.org 的 JSON 响应
+- **表单交互测试** - 测试登录表单的填写和提交
+- **无效登录凭据测试** - 测试错误登录处理
+- **页面截图功能** - 演示页面截图功能
+- **响应时间测试** - 测试网站加载性能
+
+### API 测试 (`github-api.test.ts`)
+- **GitHub 仓库信息获取** - 通过 API 获取仓库基本信息
+- **仓库搜索功能** - 测试 GitHub 搜索 API
+- **编程语言分布查询** - 获取仓库的编程语言统计
+- **README 文件获取** - 获取仓库的 README 内容
+- **提交历史获取** - 获取仓库的提交记录
+- **发布版本信息** - 获取仓库的 Release 信息
+- **错误处理验证** - 测试 API 错误响应处理
+
+### 页面对象模式
+- **BasePage** - 提供通用的页面操作方法
+- **GitHubPage** - 封装 GitHub 网站的操作
+- **DemoSitesPage** - 封装演示网站的操作
 
 ## 最佳实践
 
 - 使用页面对象模式编写可维护的测试
 - 利用 TypeScript 实现类型安全
-- 包含正面和负面测试用例
+- 选择稳定可靠的测试目标网站
 - 使用有意义的测试描述
 - 添加适当的错误处理和断言
 - 遵循既定的代码风格指南

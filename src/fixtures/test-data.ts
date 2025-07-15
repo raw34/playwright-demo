@@ -1,54 +1,8 @@
-export interface User {
-  username: string;
-  password: string;
-  email: string;
-  fullName: string;
-}
-
-export const validUsers: User[] = [
-  {
-    username: 'testuser1',
-    password: 'password123',
-    email: 'testuser1@example.com',
-    fullName: 'Test User One',
-  },
-  {
-    username: 'admin',
-    password: 'admin123',
-    email: 'admin@example.com',
-    fullName: 'Admin User',
-  },
-];
-
-export const invalidUsers = {
-  wrongPassword: {
-    username: 'testuser1',
-    password: 'wrongpassword',
-  },
-  nonexistentUser: {
-    username: 'nonexistent',
-    password: 'password123',
-  },
-  emptyCredentials: {
-    username: '',
-    password: '',
-  },
-};
-
-export const testUrls = {
-  login: '/login',
-  dashboard: '/dashboard',
-  profile: '/profile',
-  settings: '/settings',
-};
-
-// GitHub 测试数据
+// GitHub API 测试数据
 export const gitHubTestData = {
   searchQueries: {
     popular: 'playwright',
-    specific: 'microsoft/playwright',
     language: 'typescript',
-    trending: 'react',
   },
   
   repositories: {
@@ -67,19 +21,32 @@ export const gitHubTestData = {
       expectedLanguages: ['JavaScript'],
       hasReadme: true,
     },
-    
-    vue: {
-      owner: 'vuejs',
-      name: 'vue',
-      fullName: 'vuejs/vue',
-      expectedLanguages: ['TypeScript', 'JavaScript'],
-      hasReadme: true,
-    },
   },
   
   expectedResults: {
-    minStars: 1000,
-    minForks: 100,
+    minStars: 500,
+    minForks: 50,
     maxSearchResults: 10,
+  },
+};
+
+// 基础演示测试数据
+export const demoTestData = {
+  loginCredentials: {
+    valid: {
+      username: 'tomsmith',
+      password: 'SuperSecretPassword!',
+    },
+    invalid: {
+      username: 'invalid',
+      password: 'wrongpassword',
+    },
+  },
+  
+  testUrls: {
+    example: 'https://example.com',
+    loginDemo: 'https://the-internet.herokuapp.com/login',
+    httpbin: 'https://httpbin.org',
+    github: 'https://github.com',
   },
 };

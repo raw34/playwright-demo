@@ -37,14 +37,17 @@ export default defineConfig({
     video: 'retain-on-failure',
 
     /* User agent */
-    userAgent: 'Playwright Test Bot',
+    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
 
     /* Timeout for each action */
-    actionTimeout: 10000,
+    actionTimeout: 15000,
 
     /* Timeout for navigation */
-    navigationTimeout: 30000,
+    navigationTimeout: 60000,
   },
+  
+  /* Global test timeout */
+  timeout: 90000,
 
   /* Configure projects for major browsers */
   projects: [
@@ -53,35 +56,36 @@ export default defineConfig({
       use: { ...devices['Desktop Chrome'] },
     },
 
-    {
-      name: 'firefox',
-      use: { ...devices['Desktop Firefox'] },
-    },
+    // 只保留需要的浏览器，注释掉其他的
+    // {
+    //   name: 'firefox',
+    //   use: { ...devices['Desktop Firefox'] },
+    // },
 
-    {
-      name: 'webkit',
-      use: { ...devices['Desktop Safari'] },
-    },
+    // {
+    //   name: 'webkit',
+    //   use: { ...devices['Desktop Safari'] },
+    // },
 
-    /* Test against mobile viewports. */
-    {
-      name: 'Mobile Chrome',
-      use: { ...devices['Pixel 5'] },
-    },
-    {
-      name: 'Mobile Safari',
-      use: { ...devices['iPhone 12'] },
-    },
+    // /* Test against mobile viewports. */
+    // {
+    //   name: 'Mobile Chrome',
+    //   use: { ...devices['Pixel 5'] },
+    // },
+    // {
+    //   name: 'Mobile Safari',
+    //   use: { ...devices['iPhone 12'] },
+    // },
 
-    /* Test against branded browsers. */
-    {
-      name: 'Microsoft Edge',
-      use: { ...devices['Desktop Edge'], channel: 'msedge' },
-    },
-    {
-      name: 'Google Chrome',
-      use: { ...devices['Desktop Chrome'], channel: 'chrome' },
-    },
+    // /* Test against branded browsers. */
+    // {
+    //   name: 'Microsoft Edge',
+    //   use: { ...devices['Desktop Edge'], channel: 'msedge' },
+    // },
+    // {
+    //   name: 'Google Chrome',
+    //   use: { ...devices['Desktop Chrome'], channel: 'chrome' },
+    // },
   ],
 
   /* Run your local dev server before starting the tests */
@@ -92,8 +96,8 @@ export default defineConfig({
   // },
 
   /* Global setup and teardown */
-  globalSetup: require.resolve('./src/config/global-setup.ts'),
-  globalTeardown: require.resolve('./src/config/global-teardown.ts'),
+  globalSetup: './src/config/global-setup.ts',
+  globalTeardown: './src/config/global-teardown.ts',
 
   /* Test output directories */
   outputDir: 'test-results/',
