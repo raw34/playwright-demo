@@ -27,9 +27,9 @@ test.describe('演示网站测试', () => {
     // 验证页面加载成功并包含 JSON 内容
     const content = page.locator('body, pre');
     await expect(content.first()).toBeVisible({ timeout: 10000 });
-    
+
     // 验证页面包含 JSON 相关内容
-    await expect(page.locator('body')).toContainText(/title|userId|id|\{|\}/);
+    await expect(page.locator('body')).toContainText(/title|userId|id|\{|}/);
   });
 
   test('应该能够测试表单交互', async ({ page }) => {
