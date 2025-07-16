@@ -57,7 +57,7 @@ export class GitHubPage extends BasePage {
       '.js-site-search-focus',
       '.Header-search-input',
       'input[aria-label*="Search"]',
-      'input[type="text"]'
+      'input[type="text"]',
     ];
 
     let searchBox = null;
@@ -79,15 +79,18 @@ export class GitHubPage extends BasePage {
 
     await searchBox.fill(query);
     await searchBox.press('Enter');
-    
+
     // 等待搜索结果页面加载
     await this.page.waitForLoadState('domcontentloaded');
   }
 
   async getSearchResults() {
     // 等待搜索结果加载
-    await this.page.locator('.repo-list-item, .Box-row, [data-testid="results-list"]').first().waitFor({ timeout: 10000 });
-    
+    await this.page
+      .locator('.repo-list-item, .Box-row, [data-testid="results-list"]')
+      .first()
+      .waitFor({ timeout: 10000 });
+
     const results = await this.page.locator('.repo-list-item, .Box-row').all();
     return results.length;
   }
@@ -112,7 +115,7 @@ export class GitHubPage extends BasePage {
       '.js-repo-nav h1',
       '.js-repo-nav-item h1',
       '.Box-header h1',
-      'h1 strong a'
+      'h1 strong a',
     ];
 
     for (const selector of titleSelectors) {
@@ -125,7 +128,7 @@ export class GitHubPage extends BasePage {
         continue;
       }
     }
-    
+
     return '';
   }
 
@@ -135,7 +138,7 @@ export class GitHubPage extends BasePage {
       '[data-testid="repository-description"]',
       '.js-repo-description',
       '.repository-description',
-      '.Box-body p'
+      '.Box-body p',
     ];
 
     for (const selector of descriptionSelectors) {
@@ -148,7 +151,7 @@ export class GitHubPage extends BasePage {
         continue;
       }
     }
-    
+
     return '';
   }
 
@@ -158,7 +161,7 @@ export class GitHubPage extends BasePage {
       '.js-repo-nav',
       '.tabnav',
       '.UnderlineNav',
-      '[data-testid="repository-navigation"]'
+      '[data-testid="repository-navigation"]',
     ];
 
     for (const selector of tabSelectors) {
@@ -171,7 +174,7 @@ export class GitHubPage extends BasePage {
         continue;
       }
     }
-    
+
     return false;
   }
 
@@ -185,7 +188,7 @@ export class GitHubPage extends BasePage {
     // 获取用户名或组织名 - 更新选择器以匹配当前GitHub界面
     const nameSelectors = [
       '.vcard-fullname',
-      '.p-name', 
+      '.p-name',
       '.js-profile-editable-name',
       'h1.vcard-names .p-name',
       '.js-profile-editable-replace-with input',
@@ -194,7 +197,7 @@ export class GitHubPage extends BasePage {
       'h1 .p-name',
       '.vcard-names .p-name',
       '[data-testid="profile-header"] h1',
-      'h1 span[data-testid="profile-name"]'
+      'h1 span[data-testid="profile-name"]',
     ];
 
     for (const selector of nameSelectors) {
@@ -210,7 +213,7 @@ export class GitHubPage extends BasePage {
         continue;
       }
     }
-    
+
     // 如果没有找到显示名称，尝试获取username
     try {
       const usernameElement = this.page.locator('.vcard-username, .p-nickname');
@@ -223,7 +226,7 @@ export class GitHubPage extends BasePage {
     } catch {
       // 忽略错误
     }
-    
+
     return '';
   }
 
@@ -233,7 +236,7 @@ export class GitHubPage extends BasePage {
       '.user-profile-bio',
       '.js-user-profile-bio',
       '.p-note',
-      '.js-profile-editable-bio'
+      '.js-profile-editable-bio',
     ];
 
     for (const selector of bioSelectors) {
@@ -246,7 +249,7 @@ export class GitHubPage extends BasePage {
         continue;
       }
     }
-    
+
     return '';
   }
 
@@ -256,21 +259,23 @@ export class GitHubPage extends BasePage {
       '[data-testid="repository-list"]',
       '.js-repo-list',
       '.repo-list',
-      '.user-repo-search-results'
+      '.user-repo-search-results',
     ];
 
     for (const selector of repoSelectors) {
       try {
         const repos = this.getLocator(selector);
         if (await repos.isVisible({ timeout: 3000 })) {
-          const repoItems = await this.page.locator(`${selector} .repo-list-item, ${selector} .Box-row`).count();
+          const repoItems = await this.page
+            .locator(`${selector} .repo-list-item, ${selector} .Box-row`)
+            .count();
           return repoItems > 0;
         }
       } catch {
         continue;
       }
     }
-    
+
     return false;
   }
 }
