@@ -82,12 +82,11 @@ export class GitHubPage extends BasePage {
     
     // 等待搜索结果页面加载
     await this.page.waitForLoadState('domcontentloaded');
-    await this.page.waitForTimeout(3000); // 等待AJAX请求完成
   }
 
   async getSearchResults() {
     // 等待搜索结果加载
-    await this.page.waitForSelector('.repo-list-item, .Box-row, [data-testid="results-list"]', { timeout: 10000 });
+    await this.page.locator('.repo-list-item, .Box-row, [data-testid="results-list"]').first().waitFor({ timeout: 10000 });
     
     const results = await this.page.locator('.repo-list-item, .Box-row').all();
     return results.length;
