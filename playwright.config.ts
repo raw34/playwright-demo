@@ -1,4 +1,9 @@
 import { defineConfig, devices } from '@playwright/test';
+import dotenv from 'dotenv';
+import path from 'path';
+
+// Load environment variables
+dotenv.config({ path: path.resolve(process.cwd(), '.env') });
 
 export default defineConfig({
   testDir: './src/tests',
@@ -54,6 +59,20 @@ export default defineConfig({
     {
       name: 'chromium',
       use: { ...devices['Desktop Chrome'] },
+    },
+
+    // Blockchain test project
+    {
+      name: 'blockchain',
+      testMatch: /.*arbitrum.*\.test\.ts$/,
+      timeout: parseInt(process.env.TEST_TIMEOUT_MS || '120000'),
+      use: {
+        // Blockchain tests don't need browser context
+        headless: true,
+        // Longer timeout for blockchain operations
+        actionTimeout: 60000,
+        navigationTimeout: 120000,
+      },
     },
 
     // 只保留需要的浏览器，注释掉其他的

@@ -102,3 +102,8 @@ Thumbs.db
 /playwright-report/
 /blob-report/
 /playwright/.cache/
+
+# Environment files
+.env
+.env.local
+.env.*.local
