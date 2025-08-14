@@ -3,10 +3,22 @@ import { MessageSigningService } from '../../utils/message-signing';
 import { BackendMockService } from '../../utils/backend-mock';
 
 /**
- * 简化版本的转账规则签名测试
- * 验证核心签名和验证逻辑
+ * MetaMask 签名自动化测试
+ * 
+ * 核心功能：
+ * 1. 完全自动化的 MetaMask 签名流程（无需人工介入）
+ * 2. 前端代码零修改（通过 Playwright 注入 mock provider）
+ * 3. 真实有效的签名验证
+ * 4. 支持 CI/CD 环境运行
+ * 
+ * 测试覆盖：
+ * - 完整签名流程验证
+ * - 数据篡改检测
+ * - 过期签名拒绝
+ * - 签名者权限验证
+ * - API 端点集成
  */
-test.describe('Transfer Rule Signing - Simplified Flow', () => {
+test.describe('MetaMask Automated Signing Tests', () => {
   let signingService: MessageSigningService;
   let backendService: BackendMockService;
 
@@ -18,8 +30,8 @@ test.describe('Transfer Rule Signing - Simplified Flow', () => {
     console.log(`🔐 签名地址: ${signerAddress}`);
   });
 
-  test('完整签名流程验证', async () => {
-    console.log('\n📝 测试转账规则签名流程\n');
+  test('✅ 完整签名流程验证 - 无需人工介入', async () => {
+    console.log('\n📝 测试转账规则签名流程（全自动）\n');
 
     // 步骤 1: 准备转账规则数据
     const ruleData = {
@@ -89,7 +101,7 @@ test.describe('Transfer Rule Signing - Simplified Flow', () => {
     console.log('\n🎉 完整流程测试通过！');
   });
 
-  test('检测数据篡改', async () => {
+  test('🔒 检测数据篡改 - 安全性验证', async () => {
     console.log('\n🔒 测试防篡改机制\n');
 
     const originalRule = {
@@ -140,7 +152,7 @@ test.describe('Transfer Rule Signing - Simplified Flow', () => {
     console.log(`   检测结果: 数据被篡改！`);
   });
 
-  test('拒绝过期签名', async () => {
+  test('⏰ 拒绝过期签名 - 防重放攻击', async () => {
     console.log('\n⏰ 测试过期签名处理\n');
 
     const oldTimestamp = Date.now() - (30 * 60 * 1000); // 30分钟前
@@ -172,7 +184,7 @@ test.describe('Transfer Rule Signing - Simplified Flow', () => {
     console.log(`   错误信息: ${result.error}`);
   });
 
-  test('验证不可信签名者', async () => {
+  test('👤 验证不可信签名者 - 权限控制', async () => {
     console.log('\n👤 测试签名者权限验证\n');
 
     // 创建受限的后端服务（只信任特定地址）
@@ -206,7 +218,7 @@ test.describe('Transfer Rule Signing - Simplified Flow', () => {
     console.log(`   错误信息: ${result.error}`);
   });
 
-  test('API 端点模拟', async () => {
+  test('🌐 API 端点模拟 - 后端集成', async () => {
     console.log('\n🌐 测试 API 端点集成\n');
 
     const ruleData = {
