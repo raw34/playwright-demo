@@ -9,6 +9,7 @@
 - 🔄 **前端零修改** - 不需要修改生产代码
 - 🚀 **CI/CD 兼容** - 可在任何 CI/CD 环境运行
 - 🔐 **真实签名** - 使用 ethers.js 生成真实有效的签名
+- 🧪 **双层测试** - 核心逻辑测试 + 完整前端集成测试
 
 ### 2. Arbitrum ETH 转账测试
 - ✅ 支持多环境配置（Sepolia测试网/Arbitrum主网）
@@ -41,8 +42,9 @@ src/
 ├── pages/
 │   └── metamask-mock.page.ts  # MetaMask 交互页面对象
 └── tests/e2e/
-    ├── metamask-auto-signing.test.ts # MetaMask 自动签名测试
-    └── arbitrum-transfer.test.ts     # Arbitrum 转账测试
+    ├── metamask-auto-signing.test.ts          # 签名核心逻辑测试
+    ├── metamask-frontend-integration.test.ts  # 前端集成测试
+    └── arbitrum-transfer.test.ts              # Arbitrum 转账测试
 ```
 
 ## 🚀 快速开始
@@ -79,10 +81,11 @@ RECIPIENT_ADDRESS=0x...  # 接收地址（用于转账测试）
 
 ## 📝 测试用例说明
 
-### MetaMask 自动签名测试
+### MetaMask 签名测试
 
+#### 1. 核心逻辑测试
 ```bash
-# 运行签名测试
+# 运行签名核心逻辑测试
 yarn playwright test metamask-auto-signing
 
 # 测试内容：
@@ -91,6 +94,18 @@ yarn playwright test metamask-auto-signing
 # ⏰ 过期签名拒绝 - 防重放攻击
 # 👤 签名者权限验证 - 权限控制
 # 🌐 API 端点集成 - 后端验证
+```
+
+#### 2. 前端集成测试
+```bash
+# 运行前端集成测试
+yarn playwright test metamask-frontend-integration
+
+# 测试内容：
+# 🌐 完整前端流程 - 真实 HTML 页面测试
+# 🔄 前端代码零修改 - 生产代码不需调整
+# 🤖 MetaMask Mock 注入 - 自动化签名实现
+# ✅ 端到端验证 - 表单填写→签名→验证
 ```
 
 ### Arbitrum 转账测试
@@ -107,6 +122,22 @@ yarn playwright test arbitrum-transfer
 ```
 
 ## 💡 使用示例
+
+### 前端集成示例
+
+```javascript
+// 生产环境前端代码（无需修改）
+const signature = await window.ethereum.request({
+  method: 'personal_sign',
+  params: [hexMessage, account]
+});
+
+// 测试环境：Playwright 注入 mock
+const metamaskPage = new MetaMaskMockPage(page);
+await metamaskPage.injectWeb3Provider(chainId);
+await metamaskPage.approvePendingSignRequest();
+// 前端代码依然调用相同的 API，但会自动签名
+```
 
 ### 消息签名
 
@@ -166,6 +197,34 @@ console.log('交易哈希:', receipt.transactionHash);
    - 始终在后端验证签名有效性
    - 检查签名者权限
    - 实现防重放攻击机制（时间戳、nonce）
+
+## 🎭 实现原理
+
+### 前端代码零修改的秘密
+
+```javascript
+// 📌 关键点：前端代码完全一样
+await window.ethereum.request({
+  method: 'personal_sign',
+  params: [hexMessage, account]
+});
+
+// 🎯 区别在于 window.ethereum 的来源：
+// 生产环境：真实的 MetaMask 扩展
+// 测试环境：Playwright 注入的 mock 对象
+```
+
+### 测试分层架构
+
+1. **核心逻辑层** (`metamask-auto-signing.test.ts`)
+   - 快速单元测试
+   - 验证签名、加密、验证逻辑
+   - 不涉及 UI，运行速度快
+
+2. **前端集成层** (`metamask-frontend-integration.test.ts`)
+   - 完整 E2E 测试
+   - 真实 HTML/JS 页面
+   - 验证用户完整流程
 
 ## 🧪 在 CI/CD 中运行
 

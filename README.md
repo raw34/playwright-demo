@@ -32,7 +32,8 @@ playwright-demo/
 │   │   │   ├── demo-sites.test.ts
 │   │   │   ├── bilibili.test.ts
 │   │   │   ├── arbitrum-transfer.test.ts # Arbitrum ETH 转账测试
-│   │   │   └── metamask-auto-signing.test.ts # MetaMask 自动签名测试
+│   │   │   ├── metamask-auto-signing.test.ts # MetaMask 签名核心逻辑测试
+│   │   │   └── metamask-frontend-integration.test.ts # MetaMask 前端集成测试
 │   │   └── api/           # API 测试
 │   │       ├── github-api.test.ts
 │   │       └── bilibili-api.test.ts
@@ -113,12 +114,20 @@ RECIPIENT_ADDRESS=0x...  # 接收地址
 
 ### 区块链测试
 
-#### MetaMask 自动签名测试 (`metamask-auto-signing.test.ts`)
+#### MetaMask 签名测试
+
+**核心逻辑测试** (`metamask-auto-signing.test.ts`)
 - ✅ **完整签名流程验证** - 无需人工介入的自动化签名
 - 🔒 **数据篡改检测** - 验证签名数据的完整性
 - ⏰ **过期签名拒绝** - 防重放攻击机制
 - 👤 **签名者权限验证** - 权限控制验证
 - 🌐 **API 端点集成** - 后端验证集成
+
+**前端集成测试** (`metamask-frontend-integration.test.ts`)
+- 🌐 **完整前端流程** - 真实 HTML 页面与 MetaMask 交互
+- 🔄 **前端代码零修改** - 演示生产代码无需任何调整
+- 🤖 **自动化签名** - 通过注入 mock provider 实现全自动
+- ✅ **端到端验证** - 表单填写 → MetaMask签名 → 后端验证
 
 #### Arbitrum 转账测试 (`arbitrum-transfer.test.ts`)
 - **ETH 转账功能** - 在 Arbitrum One 或 Sepolia 上执行转账
