@@ -4,13 +4,13 @@ import { BackendMockService } from '../../utils/backend-mock';
 
 /**
  * MetaMask 签名自动化测试
- * 
+ *
  * 核心功能：
  * 1. 完全自动化的 MetaMask 签名流程（无需人工介入）
  * 2. 前端代码零修改（通过 Playwright 注入 mock provider）
  * 3. 真实有效的签名验证
  * 4. 支持 CI/CD 环境运行
- * 
+ *
  * 测试覆盖：
  * - 完整签名流程验证
  * - 数据篡改检测
@@ -26,7 +26,7 @@ test.describe('MetaMask Automated Signing Tests', () => {
     signingService = new MessageSigningService();
     const signerAddress = signingService.getAddress();
     backendService = new BackendMockService([signerAddress]);
-    
+
     console.log(`🔐 签名地址: ${signerAddress}`);
   });
 
@@ -46,7 +46,7 @@ test.describe('MetaMask Automated Signing Tests', () => {
       notes: '生产环境日常运营转账限额',
       timestamp: Date.now()
     };
-    
+
     console.log('✅ 步骤 1: 转账规则数据已准备');
     console.log(`   规则名称: ${ruleData.ruleName}`);
     console.log(`   每日限额: ${ruleData.dailyLimit} ETH`);
@@ -56,7 +56,7 @@ test.describe('MetaMask Automated Signing Tests', () => {
       action: 'UPDATE_TRANSFER_RULE',
       data: ruleData
     });
-    
+
     console.log('✅ 步骤 2-3: 数据已签名（模拟 MetaMask）');
     console.log(`   签名: ${signedMessage.signature.substring(0, 20)}...`);
     console.log(`   签名者: ${signedMessage.address}`);
@@ -68,7 +68,7 @@ test.describe('MetaMask Automated Signing Tests', () => {
       signerAddress: signedMessage.address,
       signedMessage: signedMessage.message
     };
-    
+
     console.log('✅ 步骤 4: 签名和数据已合并');
 
     // 步骤 5: 后端验证
@@ -78,10 +78,10 @@ test.describe('MetaMask Automated Signing Tests', () => {
       signerAddress: submissionData.signerAddress,
       signedMessage: submissionData.signedMessage
     });
-    
+
     expect(verificationResult.isValid).toBe(true);
     expect(verificationResult.signerAddress).toBe(signedMessage.address);
-    
+
     console.log('✅ 步骤 5: 后端验证通过');
     console.log(`   验证结果: ${verificationResult.isValid ? '合法' : '非法'}`);
 
@@ -93,11 +93,11 @@ test.describe('MetaMask Automated Signing Tests', () => {
       signerAddress: signedMessage.address,
       createdAt: new Date().toISOString()
     };
-    
+
     console.log('✅ 步骤 6: 规则已保存');
     console.log(`   规则 ID: ${savedRule.id}`);
     console.log(`   保存时间: ${savedRule.createdAt}`);
-    
+
     console.log('\n🎉 完整流程测试通过！');
   });
 
@@ -115,7 +115,7 @@ test.describe('MetaMask Automated Signing Tests', () => {
       action: 'UPDATE_TRANSFER_RULE',
       data: originalRule
     });
-    
+
     console.log('✅ 原始数据已签名');
     console.log(`   限额: ${originalRule.dailyLimit} ETH`);
 
@@ -134,18 +134,18 @@ test.describe('MetaMask Automated Signing Tests', () => {
     };
 
     const result = await backendService.verifySubmission(submission);
-    
+
     // 签名本身有效
     expect(result.isValid).toBe(true);
-    
+
     // 但可以检测到数据不一致
     const parsedMessage = JSON.parse(signed.message);
     expect(parsedMessage.data.dailyLimit).toBe(10);
     expect(tamperedRule.dailyLimit).toBe(1000);
-    
+
     const isDataTampered = parsedMessage.data.dailyLimit !== tamperedRule.dailyLimit;
     expect(isDataTampered).toBe(true);
-    
+
     console.log('⚠️ 数据篡改已检测');
     console.log(`   签名的限额: ${parsedMessage.data.dailyLimit} ETH`);
     console.log(`   提交的限额: ${tamperedRule.dailyLimit} ETH`);
@@ -156,7 +156,7 @@ test.describe('MetaMask Automated Signing Tests', () => {
     console.log('\n⏰ 测试过期签名处理\n');
 
     const oldTimestamp = Date.now() - (30 * 60 * 1000); // 30分钟前
-    
+
     const ruleData = {
       ruleName: '过期规则',
       dailyLimit: 50
@@ -177,7 +177,7 @@ test.describe('MetaMask Automated Signing Tests', () => {
 
     expect(result.isValid).toBe(false);
     expect(result.error).toContain('expired');
-    
+
     console.log('✅ 过期签名被正确拒绝');
     console.log(`   签名时间: ${new Date(oldTimestamp).toLocaleString()}`);
     console.log(`   当前时间: ${new Date().toLocaleString()}`);
@@ -190,7 +190,7 @@ test.describe('MetaMask Automated Signing Tests', () => {
     // 创建受限的后端服务（只信任特定地址）
     const trustedAddress = '0x742d35Cc6634C0532925a3b844Bc9e7595f0bEb7';
     const restrictedBackend = new BackendMockService([trustedAddress]);
-    
+
     console.log(`   信任的地址: ${trustedAddress}`);
     console.log(`   当前签名地址: ${signingService.getAddress()}`);
 
@@ -213,7 +213,7 @@ test.describe('MetaMask Automated Signing Tests', () => {
 
     expect(result.isValid).toBe(false);
     expect(result.error).toContain('not in trusted addresses');
-    
+
     console.log('✅ 不可信签名者被正确拒绝');
     console.log(`   错误信息: ${result.error}`);
   });
@@ -242,12 +242,12 @@ test.describe('MetaMask Automated Signing Tests', () => {
 
     // 处理 API 提交
     const response = await backendService.handleApiSubmission(requestBody);
-    
+
     expect(response.success).toBe(true);
     expect(response.message).toContain('verified and accepted');
     expect(response.data).toBeDefined();
     expect(response.data?.submissionId).toMatch(/^SUB-/);
-    
+
     console.log('✅ API 端点处理成功');
     console.log(`   响应: ${response.message}`);
     console.log(`   提交 ID: ${response.data?.submissionId}`);
