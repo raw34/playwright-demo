@@ -11,7 +11,8 @@
       "Bash(yarn format:*)",
       "Bash(yarn typecheck)",
       "Bash(yarn lint)",
-      "Bash(yarn lint:*)"
+      "Bash(yarn lint:*)",
+      "Bash(yarn add ethers dotenv)"
     ],
     "deny": []
   }
