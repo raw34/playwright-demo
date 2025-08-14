@@ -2,6 +2,7 @@ import { test, expect, Page } from '@playwright/test';
 import { MetaMaskMockPage } from '../../pages/metamask-mock.page';
 import { MessageSigningService } from '../../utils/message-signing';
 import { BackendMockService } from '../../utils/backend-mock';
+import { blockchainConfig } from '../../config/blockchain.config';
 
 /**
  * 实际项目场景：转账规则编辑保存流程
@@ -230,8 +231,9 @@ test.describe('Transfer Rule Signing - Real Project Scenario', () => {
       </html>
     `);
     
-    // 注入 MetaMask provider
-    await metamaskPage.injectWeb3Provider();
+    // 注入 MetaMask provider，使用配置中的 chain ID
+    const chainConfig = blockchainConfig.getChainConfig();
+    await metamaskPage.injectWeb3Provider(chainConfig.chainId);
   });
 
   test('完整的转账规则签名流程 - 对应实际项目场景', async () => {
@@ -255,27 +257,25 @@ test.describe('Transfer Rule Signing - Real Project Scenario', () => {
       await expect(page.locator('#dailyLimit')).toHaveValue('100');
     });
 
-    await test.step('步骤 2: 前端唤起 MetaMask', async () => {
+    await test.step('步骤 2-3: 前端唤起 MetaMask 并用户确认', async () => {
       // 点击保存按钮，触发 MetaMask
-      const savePromise = page.click('button[type="submit"]');
+      page.click('button[type="submit"]'); // 不等待，让它在后台运行
       
-      // 等待签名请求
-      await page.waitForTimeout(100);
+      // 等待签名请求创建
+      await page.waitForTimeout(500);
       
       console.log('✅ 步骤 2 完成: MetaMask 已被唤起');
       
       // 验证状态更新
-      await expect(page.locator('#status')).toContainText('MetaMask');
-    });
-
-    await test.step('步骤 3: 用户在 MetaMask 中 review 并确认', async () => {
+      await expect(page.locator('#status')).toContainText('请在 MetaMask 中确认签名');
+      
       // 模拟用户批准签名
       await metamaskPage.approvePendingSignRequest();
       
       console.log('✅ 步骤 3 完成: 用户已在 MetaMask 中确认签名');
       
-      // 等待表单提交完成
-      await page.waitForTimeout(100);
+      // 等待提交完成
+      await page.waitForTimeout(1500); // 等待模拟的后端响应
     });
 
     await test.step('步骤 4: 前端获取签名并提交到后端', async () => {
@@ -308,8 +308,15 @@ test.describe('Transfer Rule Signing - Real Project Scenario', () => {
         signedMessage: submittedData.signedMessage
       });
       
+      // 调试信息
+      if (!verificationResult.isValid) {
+        console.log('❌ 验证失败:', verificationResult.error);
+        console.log('提交的地址:', submittedData.signerAddress);
+        console.log('期望的地址:', signingService.getAddress());
+      }
+      
       expect(verificationResult.isValid).toBe(true);
-      expect(verificationResult.signerAddress).toBe(signingService.getAddress());
+      expect(verificationResult.signerAddress?.toLowerCase()).toBe(signingService.getAddress().toLowerCase());
       
       console.log('✅ 步骤 5 完成: 后端已验证签名并保存到数据库');
       console.log(`   验证结果: ${verificationResult.isValid ? '合法' : '非法'}`);

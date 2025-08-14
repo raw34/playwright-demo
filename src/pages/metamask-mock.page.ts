@@ -44,10 +44,10 @@ export class MetaMaskMockPage {
    * Inject signing functionality into the page
    * This simulates MetaMask's ethereum provider
    */
-  async injectWeb3Provider() {
+  async injectWeb3Provider(chainId: number = 11155111) {
     const address = this.signingService.getAddress();
     
-    await this.page.evaluate((walletAddress) => {
+    await this.page.evaluate(({ walletAddress, chainId }) => {
       // Simulate ethereum provider
       (window as any).ethereum = {
         isMetaMask: true,
@@ -60,6 +60,13 @@ export class MetaMaskMockPage {
             
             case 'eth_accounts':
               return [walletAddress];
+            
+            case 'eth_chainId':
+              // Return the chain ID from config
+              return '0x' + chainId.toString(16);
+            
+            case 'net_version':
+              return chainId.toString();
             
             case 'personal_sign':
               // In real MetaMask, this would show a popup
@@ -92,7 +99,7 @@ export class MetaMaskMockPage {
       
       // Dispatch event to notify the app that ethereum is available
       window.dispatchEvent(new Event('ethereum#initialized'));
-    }, address);
+    }, { walletAddress: address, chainId });
   }
 
   /**

@@ -12,7 +12,8 @@
       "Bash(yarn typecheck)",
       "Bash(yarn lint)",
       "Bash(yarn lint:*)",
-      "Bash(yarn add ethers dotenv)"
+      "Bash(yarn add ethers dotenv)",
+      "Bash(yarn playwright test:*)"
     ],
     "deny": []
   }
